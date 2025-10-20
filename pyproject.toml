@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "libpyosdev"
+version = "0.0.0"
+requires-python = ">=3.11"
+authors = [
+  {name = "Wither__"}
+]
+maintainers = [
+  {name = "Wither__"}
+]
+description = "A Python library for operating system development"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["osdev", "asm", "assembly", "operating-system"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[project.urls]
+Documentation = "https://libpyosdev.github.io/libpyosdev"
+Repository = "https://github.com/libpyosdev/libpyosdev"
+"Bug Tracker" = "https://github.com/libpyosdev/libpyosdev/issues"
+Changelog = "https://github.com/libpyosdev/libpyosdev/blob/main/CHANGELOG.md"
