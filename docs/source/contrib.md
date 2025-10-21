@@ -1,5 +1,5 @@
-# Contributing
-
+## Contributing
+---
 Contributors are welcome! You can add support for new architectures, structures, improve the documentation... Just follow the steps below:
 
 **Step 1:** fork this repository \

@@ -41,7 +41,7 @@ class ArchInstructions:
     Architecture instructions should be regrouped here
     """
 
-    def __init__(self, program=None):
+    def __init__(self):
         pass
 
     def link_program(self, program):
