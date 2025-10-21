@@ -1,15 +1,30 @@
 """
-Module to manage labels
+Module for label management
 """
 
-class Label:
+from functools import wraps
+
+def label(name: str | None = None):
     """
-    Represents a label
-    - `name`                        : name of label
+    Define a label and generate it when called
+    - `name`                : name of label
     """
 
-    def __init__(self, name: str):
-        self.name = name
+    def decorator(func):
+        label_name = name or func.__name__
 
-    def __call__(self) -> str:
-        return f"{self.name}:"
+        @wraps(func)
+        def wrapper(self, *args, **kwargs):
+            self.generate_line(f"{label_name}:")
+            return func(self, *args, **kwargs)
+
+        wrapper._is_label = True
+        wrapper._label_name = label_name
+
+        return wrapper
+
+    if callable(name):
+        func = name
+        return decorator(func)
+
+    return decorator
