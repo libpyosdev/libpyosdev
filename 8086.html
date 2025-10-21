@@ -1,0 +1,222 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generating code for the 8086 CPU &mdash; LibPyOSDev 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7026087e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            LibPyOSDev
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Generating code for the 8086 CPU</a><ul>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+<li><a class="reference internal" href="#a-simple-program">A simple program</a></li>
+<li><a class="reference internal" href="#interaction-with-labels">Interaction with labels</a></li>
+<li><a class="reference internal" href="#calling-the-bios">Calling the BIOS</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">LibPyOSDev</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Generating code for the 8086 CPU</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/8086.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="generating-code-for-the-8086-cpu">
+<h1>Generating code for the 8086 CPU<a class="headerlink" href="#generating-code-for-the-8086-cpu" title="Link to this heading"></a></h1>
+<hr class="docutils" />
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#a-simple-program"><span class="xref myst">A simple program</span></a></p></li>
+<li><p><a class="reference internal" href="#interaction-with-labels"><span class="xref myst">Interaction with labels</span></a></p></li>
+<li><p><a class="reference internal" href="#calling-the-bios"><span class="xref myst">Calling the BIOS</span></a></p></li>
+</ul>
+</section>
+<section id="a-simple-program">
+<h2>A simple program<a class="headerlink" href="#a-simple-program" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">x86_8086</span></code> package is based on the <code class="docutils literal notranslate"><span class="pre">arch</span></code> package. Every registers and more than 81 instructions are supported.</p>
+<p>Instead of generating raw Assembly code, we can use the abstractions provided by this package. Here is an example:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">program</span><span class="o">.</span><span class="n">arch</span><span class="o">.</span><span class="n">instructions</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="n">program</span><span class="o">.</span><span class="n">arch</span><span class="o">.</span><span class="n">registers</span><span class="o">.</span><span class="n">AX</span><span class="p">,</span> <span class="mh">0x28</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is like</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">program</span><span class="o">.</span><span class="n">generate_line</span><span class="p">(</span><span class="s2">&quot;mov ax, 0x28&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>But you could find that the line above is too verbose. Fortunately, the <code class="docutils literal notranslate"><span class="pre">Program</span></code> class provides a shortcut named <code class="docutils literal notranslate"><span class="pre">asm</span></code> for <code class="docutils literal notranslate"><span class="pre">arch.instructions</span></code> and <code class="docutils literal notranslate"><span class="pre">regs</span></code> for <code class="docutils literal notranslate"><span class="pre">arch.registers</span></code>.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">program</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="n">program</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">AX</span><span class="p">,</span> <span class="mh">0x28</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This line is smaller and more readable.</p>
+<p>Let’s add a few instructions:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">program</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="n">program</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">AX</span><span class="p">,</span> <span class="mh">0x28</span><span class="p">)</span>
+<span class="n">program</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="n">program</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">BX</span><span class="p">,</span> <span class="n">program</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">AX</span><span class="p">)</span>
+<span class="n">program</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">program</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">AX</span><span class="p">,</span> <span class="n">program</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">BX</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you generate the code, you will get the following result:</p>
+<div class="highlight-asm notranslate"><div class="highlight"><pre><span></span><span class="nf">mov</span><span class="w"> </span><span class="no">ax</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span>
+<span class="nf">mov</span><span class="w"> </span><span class="no">bx</span><span class="p">,</span><span class="w"> </span><span class="no">ax</span>
+<span class="nf">add</span><span class="w"> </span><span class="no">ax</span><span class="p">,</span><span class="w"> </span><span class="no">bx</span>
+</pre></div>
+</div>
+</section>
+<section id="interaction-with-labels">
+<h2>Interaction with labels<a class="headerlink" href="#interaction-with-labels" title="Link to this heading"></a></h2>
+<p>The 8086 instruction wrappers work well with labels. For example, let’s define a label and jump to it.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="nd">@label</span><span class="p">()</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">example</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+<span class="n">prog</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">jmp</span><span class="p">(</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Conditionnal jumps and comparisons are supported too. You can run this example and read the generated code:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libpyosdev.program</span><span class="w"> </span><span class="kn">import</span> <span class="n">Program</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">libpyosdev.label</span><span class="w"> </span><span class="kn">import</span> <span class="n">label</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">libpyosdev.x86_8086.infos</span><span class="w"> </span><span class="kn">import</span> <span class="n">info8086</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Labels8086</span><span class="p">(</span><span class="n">Program</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;8086_labels&quot;</span><span class="p">,</span> <span class="n">info8086</span><span class="p">)</span>
+
+    <span class="nd">@label</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">AX</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">AX</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">jmp</span><span class="p">(</span><span class="s2">&quot;loop&quot;</span><span class="p">)</span>
+
+    <span class="nd">@label</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">inc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">AX</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">cmp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">AX</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">jne</span><span class="p">(</span><span class="s2">&quot;loop&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_1_body</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+
+<span class="n">prog</span> <span class="o">=</span> <span class="n">Labels8086</span><span class="p">()</span>
+<span class="n">prog</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You will get the following output:</p>
+<div class="highlight-asm notranslate"><div class="highlight"><pre><span></span><span class="nl">start:</span>
+<span class="nf">mov</span><span class="w"> </span><span class="no">ax</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span>
+<span class="nf">add</span><span class="w"> </span><span class="no">ax</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span>
+<span class="nf">jmp</span><span class="w"> </span><span class="no">loop</span>
+<span class="nl">loop:</span>
+<span class="nf">inc</span><span class="w"> </span><span class="no">ax</span>
+<span class="nf">cmp</span><span class="w"> </span><span class="no">ax</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span>
+<span class="nf">jne</span><span class="w"> </span><span class="no">loop</span>
+</pre></div>
+</div>
+</section>
+<section id="calling-the-bios">
+<h2>Calling the BIOS<a class="headerlink" href="#calling-the-bios" title="Link to this heading"></a></h2>
+<p>The Intel x86 8086 is an architecture that supports the BIOS, so you can call its wrappers thanks to LibPyOSDev. In the example below, we call an interrupt to write a character to the screen and move the cursor. Without the BIOS class, you would write this:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">prog</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="n">prog</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">AH</span><span class="p">,</span> <span class="mh">0x0E</span><span class="p">)</span>
+<span class="n">prog</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="n">prog</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">AL</span><span class="p">,</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">))</span>
+<span class="n">prog</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="n">prog</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">BH</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>           <span class="c1"># page number, optionnal</span>
+<span class="n">prog</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">mov</span><span class="p">(</span><span class="n">progs</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">BL</span><span class="p">,</span> <span class="mh">0x0F</span><span class="p">)</span>
+<span class="n">prog</span><span class="o">.</span><span class="n">asm</span><span class="o">.</span><span class="n">int_</span><span class="p">(</span><span class="mh">0x10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>But with the BIOS class, you can do this in one line:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">prog</span><span class="o">.</span><span class="n">arch</span><span class="o">.</span><span class="n">bios</span><span class="o">.</span><span class="n">interrupt</span><span class="p">(</span><span class="n">prog</span><span class="o">.</span><span class="n">arch</span><span class="o">.</span><span class="n">bios</span><span class="o">.</span><span class="n">TELETYPE_PUTCHAR</span><span class="p">,</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mh">0x0F</span><span class="p">)</span>    <span class="c1"># page number is required here</span>
+</pre></div>
+</div>
+<p>And you can make it even shorter:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">prog</span><span class="o">.</span><span class="n">bios</span><span class="o">.</span><span class="n">interrupt</span><span class="p">(</span><span class="n">prog</span><span class="o">.</span><span class="n">bios</span><span class="o">.</span><span class="n">TELETYPE_PUTCHAR</span><span class="p">,</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mh">0x0F</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The only thing you need to be careful about is passing values to registers. For <code class="docutils literal notranslate"><span class="pre">TELETYPE_PUTCHAR</span></code>, the right order is AL, BH, BL.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Wither__.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

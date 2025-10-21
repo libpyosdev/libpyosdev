@@ -1,0 +1,239 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programs management &mdash; LibPyOSDev 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7026087e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            LibPyOSDev
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Programs management</a><ul>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+<li><a class="reference internal" href="#creating-a-simple-program">Creating a simple program</a></li>
+<li><a class="reference internal" href="#generating-code">Generating code</a></li>
+<li><a class="reference internal" href="#an-object-oriented-approach">An object-oriented approach</a></li>
+<li><a class="reference internal" href="#program-parts">Program parts</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">LibPyOSDev</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Programs management</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/prog_manage.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="programs-management">
+<h1>Programs management<a class="headerlink" href="#programs-management" title="Link to this heading"></a></h1>
+<hr class="docutils" />
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#creating-a-simple-program"><span class="xref myst">Creating a simple program</span></a></p></li>
+<li><p><a class="reference internal" href="#generating-code"><span class="xref myst">Generating code</span></a></p></li>
+<li><p><a class="reference internal" href="#an-object-oriented-approach"><span class="xref myst">An object-oriented approach</span></a></p></li>
+<li><p><a class="reference internal" href="#program-parts"><span class="xref myst">Program parts</span></a></p></li>
+</ul>
+</section>
+<section id="creating-a-simple-program">
+<h2>Creating a simple program<a class="headerlink" href="#creating-a-simple-program" title="Link to this heading"></a></h2>
+<p>First, we will create a very simple program. The goal is to show how to set up programs. <br />
+Let’s start by importing the <code class="docutils literal notranslate"><span class="pre">Program</span></code> class.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libpyosdev.program</span><span class="w"> </span><span class="kn">import</span> <span class="n">Program</span>
+</pre></div>
+</div>
+<p>Next, we need to create an instance of it. <code class="docutils literal notranslate"><span class="pre">Program</span></code> constructor takes <strong>2 required parameters</strong> and 1 is facultative.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">Program</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">arch</span><span class="p">:</span> <span class="n">ArchitectureInfos</span><span class="p">,</span>
+    <span class="n">output</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&quot;output.asm&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">name</span></code> parameter does not need to contain a file extension: it is added automatically at the code generation phase. <br />
+The <code class="docutils literal notranslate"><span class="pre">arch</span></code> parameter tells which architecture is used by the program. You need to assign a specific architecture instance to it. <br />
+The <code class="docutils literal notranslate"><span class="pre">output</span></code> parameter contains the name of the output file and is set by default to <code class="docutils literal notranslate"><span class="pre">&quot;output.asm&quot;</span></code>. But you can modify it, for example to <code class="docutils literal notranslate"><span class="pre">&quot;output/myprog.asm&quot;</span></code>.</p>
+<p>In our example, we will keep the default value of <code class="docutils literal notranslate"><span class="pre">output</span></code>.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">prog</span> <span class="o">=</span> <span class="n">Program</span><span class="p">(</span><span class="s2">&quot;first_program&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>   <span class="c1"># output = &quot;output.asm&quot;</span>
+</pre></div>
+</div>
+<p>As you can see, the <code class="docutils literal notranslate"><span class="pre">arch</span></code> parameter is set to <code class="docutils literal notranslate"><span class="pre">None</span></code>. It mustn’t, because the program will not be able to know what architecture instruction set and registers it is supposed to use.
+Let’s use the <strong>Intel x86 8086</strong> architecture.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">libpyosdev.x86_8086.infos</span><span class="w"> </span><span class="kn">import</span> <span class="n">info8086</span>
+<span class="n">prog</span> <span class="o">=</span> <span class="n">Program</span><span class="p">(</span><span class="s2">&quot;first_program&quot;</span><span class="p">,</span> <span class="n">info8086</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">info8086</span></code> is an instance of the <code class="docutils literal notranslate"><span class="pre">ArchitectureInfos</span></code> class and contains all the required informations about the 8086 architecture.</p>
+</section>
+<section id="generating-code">
+<h2>Generating code<a class="headerlink" href="#generating-code" title="Link to this heading"></a></h2>
+<p>Now, let’s generate the code of the program. We will use the <code class="docutils literal notranslate"><span class="pre">write()</span></code> function of <code class="docutils literal notranslate"><span class="pre">Program</span></code>, which creates a file and writes code inside. <br />
+If we simply call it right after our <code class="docutils literal notranslate"><span class="pre">prog</span></code> definition, we will get an output file with the content below:</p>
+<div class="highlight-asm notranslate"><div class="highlight"><pre><span></span><span class="c1">; This program has been generated by the pyosdevlib Python library</span>
+<span class="c1">; and is not intended to be edited</span>
+<span class="c1">; </span>
+</pre></div>
+</div>
+<p>These comments are generated by the <code class="docutils literal notranslate"><span class="pre">Program.generate_preamble()</span></code> function, which is called when <code class="docutils literal notranslate"><span class="pre">Program</span></code> instances are initialized.</p>
+<p>To add some assembly, we can use <code class="docutils literal notranslate"><span class="pre">Program.generate_line()</span></code>, used to generate a raw line of Assembly code.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">generate_line</span><span class="p">(</span>
+    <span class="n">line</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>We can use it to generate some instructions:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">prog</span><span class="o">.</span><span class="n">generate_line</span><span class="p">(</span><span class="s2">&quot;mov ax, 0x1234&quot;</span><span class="p">)</span>
+<span class="n">prog</span><span class="o">.</span><span class="n">generate_line</span><span class="p">(</span><span class="s2">&quot;mov bx, ax&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If we call <code class="docutils literal notranslate"><span class="pre">write()</span></code>, we will get this:</p>
+<div class="highlight-asm notranslate"><div class="highlight"><pre><span></span><span class="c1">; This program has been generated by the pyosdevlib Python library</span>
+<span class="c1">; and is not intended to be edited</span>
+<span class="c1">; </span>
+<span class="nf">mov</span><span class="w"> </span><span class="no">ax</span><span class="p">,</span><span class="w"> </span><span class="mi">0x1234</span>
+<span class="nf">mov</span><span class="w"> </span><span class="no">bx</span><span class="p">,</span><span class="w"> </span><span class="no">ax</span>
+</pre></div>
+</div>
+</section>
+<section id="an-object-oriented-approach">
+<h2>An object-oriented approach<a class="headerlink" href="#an-object-oriented-approach" title="Link to this heading"></a></h2>
+<p>For big projects, it is better to use OOP (Object-Oriented Programming) to organize the code. It works very well with LibPyOSDev. <br />
+We must define a class that heritates from <code class="docutils literal notranslate"><span class="pre">Program</span></code>. For example:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyProgram</span><span class="p">(</span><span class="n">Program</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;my_program&quot;</span><span class="p">,</span> <span class="n">info8086</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, let’s add a main function to this class, which will be used to generate the code.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">generate_line</span><span class="p">(</span><span class="s2">&quot;mov ax, 0x1234&quot;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">generate_line</span><span class="p">(</span><span class="s2">&quot;mov bx, ax&quot;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To generate the code, we just need to create an instance of our program class and call the <code class="docutils literal notranslate"><span class="pre">run()</span></code> method defined above.</p>
+</section>
+<section id="program-parts">
+<h2>Program parts<a class="headerlink" href="#program-parts" title="Link to this heading"></a></h2>
+<p>By using this approach, it is much better to separate your program into several parts, represented by Python functions. There are two main ways to do it.</p>
+<p>The first way is to define our parts and call them in <code class="docutils literal notranslate"><span class="pre">run()</span></code>.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">part1</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">part2</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">part3</span><span class="p">()</span>
+    <span class="c1"># ...</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>It’s okay for small programs, but when you make very big ones, it becomes annoying.</p>
+<p>This is why the second method is more recommended. It consists in using the <strong>program parts definition convention</strong> of LibPyOSDev. The name of each part must start with <code class="docutils literal notranslate"><span class="pre">_X_</span></code>, where <code class="docutils literal notranslate"><span class="pre">X</span></code> is a number. Then, every functions matching this pattern will be called in order by <code class="docutils literal notranslate"><span class="pre">write()</span></code>. Here is an example on how it works:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">_1_first_step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_line</span><span class="p">(</span><span class="s2">&quot;start:&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_line</span><span class="p">(</span><span class="s2">&quot;    mov ax, 10&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_line</span><span class="p">(</span><span class="s2">&quot;    mov bx, 5&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_line</span><span class="p">(</span><span class="s2">&quot;    add ax, bx&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_line</span><span class="p">(</span><span class="s2">&quot;    jmp hang&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_2_second_step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">generate_line</span><span class="p">(</span><span class="s2">&quot;hang:&quot;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">generate_line</span><span class="p">(</span><span class="s2">&quot;    jmp hang&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can also define the second step before the first one, they will always be called in order. Here is the generated code:</p>
+<div class="highlight-asm notranslate"><div class="highlight"><pre><span></span><span class="nl">start:</span>
+<span class="w">    </span><span class="nf">mov</span><span class="w"> </span><span class="no">ax</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span>
+<span class="w">    </span><span class="nf">mov</span><span class="w"> </span><span class="no">bx</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span>
+<span class="w">    </span><span class="nf">add</span><span class="w"> </span><span class="no">ax</span><span class="p">,</span><span class="w"> </span><span class="no">bx</span>
+<span class="w">    </span><span class="nf">jmp</span><span class="w"> </span><span class="no">hang</span>
+<span class="nl">hang:</span>
+<span class="w">    </span><span class="nf">jmp</span><span class="w"> </span><span class="no">hang</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Wither__.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,191 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture template &mdash; LibPyOSDev 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7026087e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            LibPyOSDev
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Architecture template</a><ul>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+<li><a class="reference internal" href="#the-arch-package">The “arch” package</a></li>
+<li><a class="reference internal" href="#architecture-informations">Architecture informations</a></li>
+<li><a class="reference internal" href="#registers">Registers</a></li>
+<li><a class="reference internal" href="#instructions">Instructions</a></li>
+<li><a class="reference internal" href="#bios">BIOS</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">LibPyOSDev</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Architecture template</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/arch_template.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="architecture-template">
+<h1>Architecture template<a class="headerlink" href="#architecture-template" title="Link to this heading"></a></h1>
+<hr class="docutils" />
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="#the-arch-package"><span class="xref myst">The <code class="docutils literal notranslate"><span class="pre">arch</span></code> package</span></a></p></li>
+<li><p><a class="reference internal" href="#architecture-informations"><span class="xref myst">Architecture informations</span></a></p></li>
+<li><p><a class="reference internal" href="#registers"><span class="xref myst">Registers</span></a></p></li>
+<li><p><a class="reference internal" href="#instructions"><span class="xref myst">Instructions</span></a></p></li>
+<li><p><a class="reference internal" href="#bios"><span class="xref myst">BIOS</span></a></p></li>
+</ul>
+</section>
+<section id="the-arch-package">
+<h2>The “arch” package<a class="headerlink" href="#the-arch-package" title="Link to this heading"></a></h2>
+<p>LibPyOSDev provides a package named <code class="docutils literal notranslate"><span class="pre">arch</span></code>. It provides module templates to help you add support for your architecture.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">infos</span></code>: informations about the architecture</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">registers</span></code>: representation of the architecture CPU registers</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">instructions</span></code>: architecture CPU instruction set</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bios</span></code>: representation of the architecture BIOS (if supported) and wrappers to its functions</p></li>
+</ul>
+</section>
+<section id="architecture-informations">
+<h2>Architecture informations<a class="headerlink" href="#architecture-informations" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">arch.infos</span></code> module contains the <code class="docutils literal notranslate"><span class="pre">ArchitectureInfos</span></code> class, used to represent architectures. It is defined as described below:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">ArchitectureInfos</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">bits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">max_mem</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">registers</span><span class="p">:</span> <span class="n">TInstr</span><span class="p">,</span>
+    <span class="n">instructions</span><span class="p">:</span> <span class="n">TRegs</span><span class="p">,</span>
+    <span class="n">bios</span><span class="p">:</span> <span class="n">BIOS</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">name</span></code> parameter is the name of the architecture. <br />
+The <code class="docutils literal notranslate"><span class="pre">bits</span></code> parameter is the size of a word on the architecture (e.g. 16, 32, 64, …). <br />
+The <code class="docutils literal notranslate"><span class="pre">max_men</span></code> parameter is the maximum amount of RAM that can be handled by the architecture. <br />
+The <code class="docutils literal notranslate"><span class="pre">registers</span></code> parameter represents to the architecture registers. <br />
+The <code class="docutils literal notranslate"><span class="pre">instructions</span></code> parameter represents the architecture instructions. <br />
+The <code class="docutils literal notranslate"><span class="pre">bios</span></code> parameter represents the architecture BIOS (<code class="docutils literal notranslate"><span class="pre">None</span></code> if it is not supported)</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">__repr__()</span></code> method returns the following text:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Architecture</span> <span class="n">NAME</span> <span class="p">(</span><span class="n">BITS</span><span class="o">-</span><span class="n">bit</span><span class="p">)</span> <span class="nb">max</span> <span class="n">memory</span><span class="p">:</span> <span class="n">MAX_MEM</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="registers">
+<h2>Registers<a class="headerlink" href="#registers" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">arch.registers</span></code> module contains a generic class named <code class="docutils literal notranslate"><span class="pre">RegistersArch</span></code> to regroup the architecture CPU registers.</p>
+</section>
+<section id="instructions">
+<h2>Instructions<a class="headerlink" href="#instructions" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">arch.instructions</span></code> module contains two classes: <code class="docutils literal notranslate"><span class="pre">GenericInstruction</span></code> and <code class="docutils literal notranslate"><span class="pre">ArchInstructions</span></code>. The first one represents a specific instruction. The second one regroups the instances of <code class="docutils literal notranslate"><span class="pre">GenericInstruction</span></code>.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">GenericInstruction</span><span class="p">(</span>
+    <span class="n">mnemonic</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">operand_count</span><span class="p">:</span> <span class="nb">int</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">mnemonic</span></code> parameter represents the name of the instruction (e.g. mov). <br />
+The <code class="docutils literal notranslate"><span class="pre">operand_count</span></code> parameter represents the number of operands that is required (e.g. 2).</p>
+<p>When an instance of this class is called, it generates the corresponding Assembly code using the <code class="docutils literal notranslate"><span class="pre">emit()</span></code> function, called automatically by <code class="docutils literal notranslate"><span class="pre">__call__()</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ArchInstructions</span></code> has the <code class="docutils literal notranslate"><span class="pre">link_program()</span></code> method, to tell the instructions in which program they must emit their code.</p>
+</section>
+<section id="bios">
+<h2>BIOS<a class="headerlink" href="#bios" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">arch.bios</span></code> module contains the <code class="docutils literal notranslate"><span class="pre">BIOS</span></code> class, which represents the BIOS of the architecture. This class uses a dictionnary named <code class="docutils literal notranslate"><span class="pre">interrupt_table</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">interrupt</span> <span class="n">number</span><span class="p">:</span> <span class="n">interrupt</span> <span class="n">wrapper</span>
+</pre></div>
+</div>
+<p>and a function named <code class="docutils literal notranslate"><span class="pre">interrupt()</span></code>:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">interrupt</span><span class="p">(</span>
+    <span class="n">intno</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="o">*</span><span class="n">args</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">intno</span></code> parameter is the number of the interrupt (not the real number but the number defined in the BIOS class).
+The <code class="docutils literal notranslate"><span class="pre">args</span></code> parameter is the values needed by the interrupt. They must be given <strong>in order</strong> and are moved to registers.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Wither__.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
