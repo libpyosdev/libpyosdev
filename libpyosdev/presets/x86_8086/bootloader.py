@@ -3,7 +3,7 @@ A MBR 8086 bootloader preset
 """
 
 from libpyosdev.label import label
-from libpyosdev.program import Program
+from libpyosdev.program import Program, part
 from libpyosdev.x86_8086.infos import info8086
 from libpyosdev.presets.x86_8086.constants import BOOTSECT_LOAD_ADDR, MBR_BOOTSECT_SIGNATURE
 
@@ -28,13 +28,16 @@ class x86_8086_Bootloader(Program):
         self.asm.hlt()
         self.asm.jmp(self.asm.CURRENT_ADDRESS)
 
-    def _1_setup(self):
+    @part(1)
+    def setup(self):
         self.asm.org(BOOTSECT_LOAD_ADDR)
 
-    def _2_body(self):
+    @part(2)
+    def body(self):
         self.start()
 
-    def _3_data(self):
+    @part(3)
+    def data(self):
         @label()
         def driveno(self):
             self.asm.db(0)
