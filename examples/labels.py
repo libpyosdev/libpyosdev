@@ -1,4 +1,4 @@
-from libpyosdev.program import Program
+from libpyosdev.program import Program, part
 from libpyosdev.label import label
 from libpyosdev.x86_8086.infos import info8086
 
@@ -19,7 +19,8 @@ class UsingLabels(Program):
         self.generate_line("    mov bx, 7")
         self.generate_line("    sub ax, bx")
 
-    def _1_body(self):
+    @part(1)
+    def body(self):
         self.start()
         self.generate_line("    jmp label2")
         self.label2()

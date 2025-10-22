@@ -2,8 +2,25 @@
 Module for program management
 """
 
-import re
+import re, functools
 from libpyosdev.arch.infos import ArchitectureInfos
+
+def part(n: int):
+    """
+    Decorator to generate a program part
+    - `n`                               : part number
+    """
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(self, *args, **kwargs):
+            return func(self, *args, **kwargs)
+        wrapper._is_part = True
+        wrapper._part_number = n
+        wrapper._original_name = func.__name__
+        wrapper.__name__ = f"_{n}_{func.__name__}"
+        return wrapper
+    return decorator
 
 class Program:
     """
@@ -48,22 +65,30 @@ class Program:
 
         self.code.append(line)
 
+    def include(self, path: str) -> None:
+        """
+        Includes code from an Assembly file to current program
+        - `path`                        : the file to include
+        """
+
+        with open(path, 'r') as incfile:
+            content = incfile.readlines()
+
+        self.code.extend(content)
+
     def write(self, *args, **kwargs) -> None:
         """
         Writes the generated code into a file
         """
 
-        methods = []
-        for name in dir(self):
-            match = re.match(r"_([0-9]+)_?.*", name)
-            if match:
-                number = int(match.group(1))
-                methods.append((number, name))
-
+        methods = [
+            (m._part_number, getattr(self, m_name))
+            for m_name, m in self.__class__.__dict__.items()
+            if hasattr(m, "_is_part") and m._is_part
+        ]
         methods.sort(key=lambda t: t[0])
 
-        for _, name in methods:
-            method = getattr(self, name)
+        for _, method in methods:
             method(*args, **kwargs)
 
         with open(self.output, "w") as file:

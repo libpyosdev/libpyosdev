@@ -1,4 +1,4 @@
-from libpyosdev.program import Program
+from libpyosdev.program import Program, part
 from libpyosdev.label import label
 from libpyosdev.x86_8086.infos import info8086
 
@@ -18,7 +18,8 @@ class Labels8086(Program):
         self.asm.cmp(self.regs.AX, 10)
         self.asm.jne("loop")
 
-    def _1_body(self):
+    @part(1)
+    def body(self):
         self.start()
         self.loop()
 

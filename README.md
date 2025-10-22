@@ -7,10 +7,12 @@ LibPyOSDev is a free and open-source modern Python library for operating system 
 LibPyOSDev does not make you code an operating system in Python, but uses Python to generate Assembly code. The result is pure text, and Python does not run directly on your CPU.
 
 ## Features
-- Intel x86 8086 architecture support
-- Architecture package template
-- CPU registers representations for debugging
-- Programs management
+- Built-in **presets** (bootloader, kernel base, ...)
+- **Mathematical** functions
+- Intel **x86 8086** architecture support
+- **Architecture** package **template**
+- **CPU registers representations** for **debugging**
+- Elegant **programs** management and representation
 
 ## Installation
 **Step 1:** clone this repository

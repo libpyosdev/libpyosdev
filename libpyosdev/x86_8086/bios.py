@@ -15,6 +15,8 @@ class BIOS_8086(BIOS):
     PUTCHAR                     = 3
     TELETYPE_PUTCHAR            = 4
     GET_VIDEO_MODE              = 5
+    GETCHAR                     = 16
+    GETCHAR2                    = 17
     GET_SHIFT_FLAGS             = 6
     RESET_DISK                  = 7
     READ_SECTORS                = 8
@@ -36,6 +38,8 @@ class BIOS_8086(BIOS):
             self.PUTCHAR                    : self.putchar,
             self.TELETYPE_PUTCHAR           : self.teletype_putchar,
             self.GET_VIDEO_MODE             : self.get_video_mode,
+            self.GETCHAR                    : self.getchar,
+            self.GETCHAR2                   : self.getchar2,
             self.GET_SHIFT_FLAGS            : self.get_shift_flags,
             self.RESET_DISK                 : self.reset_disk,
             self.READ_SECTORS               : self.read_sectors,

@@ -97,16 +97,22 @@ def run(self):
 ```
 It's okay for small programs, but when you make very big ones, it becomes annoying.
 
-This is why the second method is more recommended. It consists in using the **program parts definition convention** of LibPyOSDev. The name of each part must start with `_X_`, where `X` is a number. Then, every functions matching this pattern will be called in order by `write()`. Here is an example on how it works:
+This is why the second method is more recommended. It consists in using the `part` decorator, which can be imported like this:
 ```py
-def _1_first_step(self):
+from libpyosdev.program import part
+```
+Decorating a function with it will turn this function into a program part.
+```py
+@part(1)
+def first_step(self):
         self.generate_line("start:")
         self.generate_line("    mov ax, 10")
         self.generate_line("    mov bx, 5")
         self.generate_line("    add ax, bx")
         self.generate_line("    jmp hang")
 
-def _2_second_step(self):
+@part(2)
+def second_step(self):
     self.generate_line("hang:")
     self.generate_line("    jmp hang")
 

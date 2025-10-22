@@ -11,12 +11,16 @@ Note that **every example** in this documentation has been **tested** and can be
 4. [Architecture template](arch_template.md)
 5. [Generating code for the 8086 CPU](8086.md)
 6. [Debugging](debug.md)
+7. [Maths](math.md)
+8. [8086 support](support_8086.md)
 
 ## Features
+- Built-in **presets** (bootloader, kernel base, ...)
+- **Mathematical** functions
 - Intel **x86 8086** architecture support
 - **Architecture** package **template**
 - **CPU registers representations** for **debugging**
-- **Program** management
+- Elegant **programs** management and representation
 
 ## Contributing
 You can contribute to both **library** and **documentation**. \
