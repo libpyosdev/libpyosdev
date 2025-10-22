@@ -1,3 +1,7 @@
+## Version 0.1.2
+- Fiex `Program.generate_preamble()` (replaced "pyosdevlib" by "libpyosdev")
+- Fixed presets by using `parts`
+
 ## Version 0.1.1
 - Updated documentation
     - Programs management section now explains `parts`

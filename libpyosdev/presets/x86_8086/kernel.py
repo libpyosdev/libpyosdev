@@ -4,7 +4,7 @@ A 8086 kernel preset
 
 from libpyosdev import label
 from libpyosdev.presets.x86_8086.constants import KERNEL_LOAD_ADDR
-from libpyosdev.program import Program
+from libpyosdev.program import Program, part
 from libpyosdev.x86_8086.infos import info8086
 
 class x86_8086_Kernel(Program):
@@ -22,10 +22,12 @@ class x86_8086_Kernel(Program):
         self.asm.hlt()
         self.asm.jmp(self.asm.CURRENT_ADDRESS)
 
-    def _1_setup(self):
+    @part(1)
+    def setup(self):
         self.asm.org(KERNEL_LOAD_ADDR)
 
-    def _2_body(self):
+    @part(2)
+    def body(self):
         self.start()
 
     def run(self):
